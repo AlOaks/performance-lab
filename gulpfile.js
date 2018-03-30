@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     sass = require('gulp-sass'),
     cssnano = require('gulp-cssnano'),
+    concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
     rename = require("gulp-rename"),
     eslint = require("gulp-eslint"),
@@ -26,10 +27,13 @@ gulp.task('imagemin', function(){
 gulp.task("scripts", ["lint"], function() {
     return gulp
       .src("js/*.js") // What files do we want gulp to consume?
+      .pipe(concat("js/*.js"))
       .pipe(uglify()) // Call the uglify function on these files
-      .pipe(rename({ extname: ".min.js" })) // Rename the uglified file
+      .pipe(rename("main.min.js" )) // Rename the uglified file
       .pipe(gulp.dest("./build/js")); // Where do we put the result?
   });
+
+
 
 gulp.task('sass', function() {
    gulp.src('./sass/style.scss')
