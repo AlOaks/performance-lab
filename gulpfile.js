@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     sass = require('gulp-sass'),
     cssnano = require('gulp-cssnano'),
+    imagemin = require('gulp-imagemin'),
     rename = require("gulp-rename"),
     eslint = require("gulp-eslint"),
     autoprefixer = require('gulp-autoprefixer'),
@@ -15,6 +16,12 @@ var plumberErrorHandler = {
       message: 'Error: <%= error.message %>'
    })
 };
+
+gulp.task('imagemin', function(){
+    return gulp.src('./images1/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('./images/'))
+});
 
 gulp.task("scripts", ["lint"], function() {
     return gulp
@@ -31,6 +38,7 @@ gulp.task('sass', function() {
       .pipe(autoprefixer({
          browsers: ['last 2 versions']
       }))
+      .pipe(cssnano())
       .pipe(rename('style.min.css'))
       .pipe(gulp.dest('./build/css'))
 });
@@ -55,6 +63,6 @@ gulp.task('watch', function() {
    gulp.watch('js/*.js', ['scripts']);
 });
 
-gulp.task('default', ['watch', 'browser-sync', 'scripts', 'sass']);
+gulp.task('default', ['watch', 'browser-sync', 'scripts', 'sass', 'imagemin']);
 
 
